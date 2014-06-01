@@ -1,8 +1,17 @@
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-	public class Circuit {
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
+
+	public class Circuit  extends JFrame implements Runnable{
 
 		private static CompIN ins[] = new CompIN[5];
 		private static CompOUT outs[] = new CompOUT[5];
@@ -18,7 +27,57 @@ import java.io.IOException;
 		
 		private static Commande[] commande = new Commande[50];
 		
-	public static void main(String args[]) {
+		/* Le menu */ 
+		
+		 private JMenuBar menuBar = new JMenuBar();
+		    JMenu   fichier = new JMenu("Fichier"),
+		            aide = new JMenu("Aide"),
+		    		composants = new JMenu("Composants") ;
+		    
+		    JMenuItem nouveau = new JMenuItem("Nouveau"),
+	                quitter = new JMenuItem("Quitter"),
+	                charger = new JMenuItem("Charger"),
+	                sauvegarder = new JMenuItem("Sauvegarder"),
+	                lancer = new JMenuItem("Lancer"),
+	                and = new JMenuItem("AND"),
+	                or = new JMenuItem("OR"),
+	                xor = new JMenuItem("XOR"),
+	                no = new JMenuItem("NO"),
+	                aideItem = new JMenuItem("Aide");
+		    
+		    /* Les ÃƒÂ©couteurs */ 
+		    
+		    //private Stoplistener sListener = new StopListener(); 
+		    
+		    /* La Toolbar */
+
+		    JToolBar toolBar = new JToolBar(1); 
+		    
+		    JButton orB = new JButton(new ImageIcon("image/ou1.png")),
+		            andB = new JButton(new ImageIcon("image/et1.png")),
+		            xorB = new JButton(new ImageIcon("image/xor1.png")),
+		            noB = new JButton(new ImageIcon("image/no1.png")),
+		    	    liaisonB = new JButton(new ImageIcon("image/"));
+
+		    //Zone de Dessin des composants
+		    private DrawPanel drawPanel = new DrawPanel();
+		
+	public Circuit(){
+		this.setSize(1000, 1000);
+	    this.setLocationRelativeTo(null);
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	         
+	    /*On initialise le menu*/
+	    this.initMenu();
+	        
+	    /*On initialise la Toolbar*/
+	    this.initToolbar();
+	        
+	    this.getContentPane().add(drawPanel,BorderLayout.CENTER);
+	    this.setVisible(true);
+	}
+		    
+	public static void main(String args[]){
 		
 		creerCircuit(args[0]);
 		
@@ -41,7 +100,9 @@ import java.io.IOException;
 				break;
 			
 			}
-		
+			
+		Circuit cir = new Circuit();
+			
 		}
 	
 	public static void creerCircuit(String s){
@@ -723,6 +784,50 @@ case 'o' :
 	  }
 	}break;
        }
+}
+
+private void initMenu() {
+	
+    fichier.add(nouveau);
+    fichier.addSeparator();
+    fichier.add(sauvegarder);
+    fichier.add(charger);
+    fichier.addSeparator();
+    fichier.add(lancer);
+    fichier.addSeparator();
+    fichier.add(quitter);
+    
+    composants.add(and);
+    composants.add(or);
+    composants.add(no);
+    composants.add(xor);
+    
+    aide.add(aideItem);
+    
+    menuBar.add(fichier);
+    menuBar.add(composants);
+    menuBar.add(aide);
+    
+    this.setJMenuBar(menuBar);
+	
+}
+
+private void initToolbar() {
+toolBar.add(orB);
+toolBar.add(andB);
+toolBar.add(xorB);
+toolBar.add(noB);
+toolBar.addSeparator();
+toolBar.add(liaisonB);
+	
+this.getContentPane().add(toolBar, BorderLayout.WEST);
+	
+}
+
+@Override
+public void run() {
+	// TODO Auto-generated method stub
+	
 }
 
 
